@@ -18,7 +18,7 @@ app.use('/customers', customerRoutes);
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/shopkart';
+const MONGO_URI = process.env.DB_URL || process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/shopkart';
 
 mongoose.connect(MONGO_URI)
   .then(() => {
