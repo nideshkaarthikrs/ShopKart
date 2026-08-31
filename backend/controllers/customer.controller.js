@@ -23,10 +23,12 @@ const registerCustomer = async (req, res) => {
       return res.status(409).json({ success: false, message: 'Email already exists' });
     }
 
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
     const customer = await Customer.create({
       fullName,
       email,
-      password,
+      password: hashedPassword,
       phone
     });
 
@@ -58,7 +60,7 @@ const loginCustomer = async (req, res) => {
   try {
     const customer = await Customer.findOne({ email });
 
-    if (customer && (await customer.matchPassword(password))) {
+    if (customer && bcrypt.compareSync(password, customer.password)) {
       const token = generateToken(customer._id);
       
       // Store the JWT inside an HttpOnly cookie
@@ -129,8 +131,8 @@ const changePassword = async (req, res) => {
 
     const currentCustomer = await Customer.findById(customer._id);
 
-    if (currentCustomer && (await currentCustomer.matchPassword(oldPassword))) {
-      currentCustomer.password = newPassword; // Pre-save hook will hash this
+    if (currentCustomer && bcrypt.compareSync(oldPassword, currentCustomer.password)) {
+      currentCustomer.password = bcrypt.hashSync(newPassword, 10);
       await currentCustomer.save();
       
       res.json({ success: true, message: 'Password changed successfully' });
