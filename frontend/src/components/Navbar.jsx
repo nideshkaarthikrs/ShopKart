@@ -15,7 +15,11 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <strong>ShopKart</strong>
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <strong>ShopKart</strong>
+        <a href="/home" style={{ color: 'white', textDecoration: 'none' }}>Home</a>
+        <a href="/products" style={{ color: 'white', textDecoration: 'none' }}>Products</a>
+      </div>
       <button type="button" className="link-button" onClick={handleLogout}>
         Logout
       </button>

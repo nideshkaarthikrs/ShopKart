@@ -1,0 +1,25 @@
+ShopKart Lab 03 - Viva Questions and Answers
+
+1. Why should product data come from MongoDB instead of being hardcoded in React?
+Answer: Hardcoding data in React makes it static. By storing data in MongoDB, the product catalog becomes dynamic, allowing admins to add, update, or delete products without needing to modify and redeploy the frontend code. It also allows multiple users to see consistent, up-to-date data.
+
+2. What is the difference between a URL parameter and a query parameter?
+Answer: A URL parameter (or route parameter) is part of the URL path itself, used to identify a specific resource (e.g., `/products/123`). A query parameter is appended to the end of the URL after a `?` and is typically used to sort, filter, or provide extra configuration to the request (e.g., `/products?category=Electronics`).
+
+3. When would you use `/products/:id` vs `/products?category=Electronics`?
+Answer: You use `/products/:id` (URL parameter) when you need to fetch a specific, single product by its unique identifier (like viewing a single product's details page). You use `/products?category=Electronics` (query parameter) when you are fetching a list or collection of products but want to filter them based on specific criteria.
+
+4. How does `.map()` help us render products dynamically?
+Answer: In React, `.map()` allows us to iterate over an array of data (like an array of product objects fetched from the API) and return a UI component (like a ProductCard) for each item in the array. This lets us render any number of products dynamically based on the dataset size without writing repetitive code.
+
+5. Why do we need loading and error states in a frontend application?
+Answer: API requests take time to complete and can sometimes fail (due to network issues, server errors, etc.). A loading state tells the user that their request is being processed rather than making them think the app is frozen. An error state informs them what went wrong so they aren't left staring at a broken or empty screen. Both are critical for a good user experience.
+
+6. What happens when the backend returns an empty array?
+Answer: An empty array means the API request was successful, but there is no data matching the criteria (e.g., searching for a product that doesn't exist). The frontend should handle this by displaying an "Empty State" message, such as "No products found," instead of just showing a blank screen.
+
+7. Why should search/filtering be handled by the backend instead of filtering a huge dataset only in React?
+Answer: If you filter in React, you have to send the entire database of products to the client first. This consumes massive amounts of bandwidth and memory, making the app extremely slow. By handling filtering on the backend, you only send the specific products the user actually requested, keeping the application fast and efficient.
+
+8. Why should API/service logic be separated from UI components?
+Answer: Separating API logic (like our `api.js` file) from UI components follows the principle of separation of concerns. It makes components cleaner and focused only on rendering UI. It also makes API calls reusable across different components and easier to test or maintain if the backend URL or logic changes.

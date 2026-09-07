@@ -39,3 +39,19 @@ export function getCurrentCustomer() {
 export function logoutCustomer() {
   return request('/customers/logout', { method: 'POST' })
 }
+
+export function getProducts(search = '', category = '', sort = '') {
+  const params = new URLSearchParams()
+  if (search) params.append('search', search)
+  if (category) params.append('category', category)
+  if (sort) params.append('sort', sort)
+
+  const queryString = params.toString()
+  const url = queryString ? `/products?${queryString}` : '/products'
+
+  return request(url)
+}
+
+export function getProductById(id) {
+  return request(`/products/${id}`)
+}
