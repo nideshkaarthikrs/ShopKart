@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const customerRoutes = require('./routes/customer.routes');
 const productRoutes = require('./routes/product.routes');
+const wishlistRoutes = require('./routes/wishlist.routes');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 // Routes
 app.use('/customers', customerRoutes);
 app.use('/products', productRoutes);
+app.use('/wishlist', wishlistRoutes);
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;

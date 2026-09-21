@@ -55,3 +55,19 @@ export function getProducts(search = '', category = '', sort = '') {
 export function getProductById(id) {
   return request(`/products/${id}`)
 }
+
+export function addToWishlist(productId) {
+  return request(`/wishlist/${productId}`, {
+    method: 'POST',
+  })
+}
+
+export function getWishlist() {
+  return request('/wishlist')
+}
+
+export function removeFromWishlist(productId) {
+  return request(`/wishlist/${productId}`, {
+    method: 'DELETE',
+  })
+}

@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Products from './pages/Products'
 import ProductDetails from './pages/ProductDetails'
+import Wishlist from './pages/Wishlist'
 import { getCurrentCustomer } from './services/api'
 import './App.css'
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/home" element={<ProtectedRoute element={Home} />} />
         <Route path="/products" element={<ProtectedRoute element={Products} />} />
         <Route path="/products/:id" element={<ProtectedRoute element={ProductDetails} />} />
+        <Route path="/wishlist" element={<ProtectedRoute element={Wishlist} />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
