@@ -6,6 +6,7 @@ const cors = require('cors');
 const customerRoutes = require('./routes/customer.routes');
 const productRoutes = require('./routes/product.routes');
 const wishlistRoutes = require('./routes/wishlist.routes');
+const cartRoutes = require('./routes/cart.routes');
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use('/customers', customerRoutes);
 app.use('/products', productRoutes);
 app.use('/wishlist', wishlistRoutes);
+app.use('/cart', cartRoutes);
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;

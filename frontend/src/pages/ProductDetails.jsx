@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import AddToCartButton from '../components/AddToCartButton'
 import { getProductById } from '../services/api'
 
 function ProductDetails() {
@@ -44,8 +45,9 @@ function ProductDetails() {
           <p style={{ color: product.stock > 0 ? 'green' : 'red', fontWeight: 'bold', marginBottom: '2rem' }}>
             {product.stock > 0 ? `${product.stock} units left in stock` : 'Out of stock'}
           </p>
-          <button 
-            style={{ 
+          <AddToCartButton
+            product={product}
+            style={{
               padding: '1rem 2rem', 
               backgroundColor: '#28a745', 
               color: 'white', 
@@ -55,11 +57,7 @@ function ProductDetails() {
               cursor: product.stock > 0 ? 'pointer' : 'not-allowed',
               opacity: product.stock > 0 ? 1 : 0.5
             }}
-            disabled={product.stock <= 0}
-            onClick={() => alert('Add to Cart functionality coming soon!')}
-          >
-            Add to Cart
-          </button>
+          />
           
           <div style={{ marginTop: '2rem' }}>
              <button onClick={() => navigate('/products')} style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>

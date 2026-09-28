@@ -1,4 +1,8 @@
-function Home({ customer }) {
+import { useOutletContext } from 'react-router-dom'
+
+function Home() {
+  const customer = useOutletContext()
+
   return (
     <main className="home-page">
       <section className="profile-card">

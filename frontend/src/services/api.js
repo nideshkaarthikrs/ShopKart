@@ -71,3 +71,26 @@ export function removeFromWishlist(productId) {
     method: 'DELETE',
   })
 }
+
+export function addToCart(productId) {
+  return request(`/cart/${productId}`, {
+    method: 'POST',
+  })
+}
+
+export function getCart() {
+  return request('/cart')
+}
+
+export function updateCartQuantity(productId, quantity) {
+  return request(`/cart/${productId}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ quantity }),
+  })
+}
+
+export function removeFromCart(productId) {
+  return request(`/cart/${productId}`, {
+    method: 'DELETE',
+  })
+}

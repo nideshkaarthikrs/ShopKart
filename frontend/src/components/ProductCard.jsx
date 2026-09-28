@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AddToCartButton from './AddToCartButton'
 import { addToWishlist } from '../services/api'
 
 function ProductCard({ product }) {
@@ -32,6 +33,10 @@ function ProductCard({ product }) {
         {product.stock > 0 ? `${product.stock} units left` : 'Out of stock'}
       </p>
       <div style={{ marginTop: 'auto', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <AddToCartButton
+          product={product}
+          style={{ flex: 1, padding: '0.5rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: product.stock > 0 ? 'pointer' : 'not-allowed' }}
+        />
         <button 
           onClick={() => navigate(`/products/${product._id}`)}
           style={{ flex: 1, padding: '0.5rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
