@@ -55,10 +55,13 @@ function Cart() {
           <span>Subtotal</span>
           <strong>₹{subtotal.toLocaleString('en-IN')}</strong>
         </p>
-        <button type="button" className="primary-button" disabled>
+        <button
+          type="button"
+          className="primary-button"
+          onClick={() => navigate('/checkout')}
+        >
           Proceed to Checkout
         </button>
-        <small>Checkout will be available in the next step.</small>
       </aside>
     </main>
   )

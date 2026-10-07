@@ -24,6 +24,7 @@ function Navbar() {
         <Link to="/products" style={{ color: 'white', textDecoration: 'none' }}>Products</Link>
         <Link to="/wishlist" style={{ color: 'white', textDecoration: 'none' }}>Wishlist</Link>
         <Link to="/cart" style={{ color: 'white', textDecoration: 'none' }}>Cart ({cartCount})</Link>
+        <Link to="/orders" style={{ color: 'white', textDecoration: 'none' }}>Orders</Link>
       </div>
       <button type="button" className="link-button" onClick={handleLogout}>
         Logout

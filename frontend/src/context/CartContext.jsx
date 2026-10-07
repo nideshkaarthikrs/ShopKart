@@ -80,9 +80,15 @@ export function CartProvider({ children }) {
     [mutateCart]
   )
 
+  const clearCartState = useCallback(() => {
+    revision.current += 1
+    setCartItems([])
+    setError('')
+  }, [])
+
   const value = useMemo(
-    () => ({ cartItems, loading, error, refreshCart, addToCart, updateQuantity, removeFromCart }),
-    [cartItems, loading, error, refreshCart, addToCart, updateQuantity, removeFromCart]
+    () => ({ cartItems, loading, error, refreshCart, addToCart, updateQuantity, removeFromCart, clearCartState }),
+    [cartItems, loading, error, refreshCart, addToCart, updateQuantity, removeFromCart, clearCartState]
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

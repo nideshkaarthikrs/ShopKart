@@ -94,3 +94,33 @@ export function removeFromCart(productId) {
     method: 'DELETE',
   })
 }
+
+export function createPaymentOrder(shippingAddress) {
+  return request('/orders/create-payment-order', {
+    method: 'POST',
+    body: JSON.stringify({ shippingAddress }),
+  })
+}
+
+export function verifyPayment(paymentData) {
+  return request('/orders/verify-payment', {
+    method: 'POST',
+    body: JSON.stringify(paymentData),
+  })
+}
+
+export function getUserOrders() {
+  return request('/orders')
+}
+
+export function getOrderById(id) {
+  return request(`/orders/${id}`)
+}
+
+export function updateOrderStatus(id, status) {
+  return request(`/orders/${id}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status }),
+  })
+}
+

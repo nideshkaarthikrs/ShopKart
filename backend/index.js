@@ -3,12 +3,14 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+
+dotenv.config();
+
 const customerRoutes = require('./routes/customer.routes');
 const productRoutes = require('./routes/product.routes');
 const wishlistRoutes = require('./routes/wishlist.routes');
 const cartRoutes = require('./routes/cart.routes');
-
-dotenv.config();
+const orderRoutes = require('./routes/order.routes');
 
 const app = express();
 
@@ -23,6 +25,7 @@ app.use('/customers', customerRoutes);
 app.use('/products', productRoutes);
 app.use('/wishlist', wishlistRoutes);
 app.use('/cart', cartRoutes);
+app.use('/orders', orderRoutes);
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 3000;
