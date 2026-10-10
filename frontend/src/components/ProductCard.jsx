@@ -5,7 +5,7 @@ import { addToWishlist } from '../services/api'
 
 function ProductCard({ product }) {
   const navigate = useNavigate()
-  const [wishlistStatus, setWishlistStatus] = useState('idle') // 'idle' | 'saving' | 'saved'
+  const [wishlistStatus, setWishlistStatus] = useState('idle')
   const [wishlistError, setWishlistError] = useState('')
 
   async function handleAddToWishlist() {

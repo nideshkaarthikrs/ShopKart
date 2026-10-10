@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 const Customer = require('../models/customer.model');
 const Product = require('../models/product.model');
 
-// @desc    Add product to wishlist
-// @route   POST /wishlist/:productId
-// @access  Private
 const addToWishlist = async (req, res) => {
   const { productId } = req.params;
 
@@ -43,9 +40,6 @@ const addToWishlist = async (req, res) => {
   }
 };
 
-// @desc    Get current customer's wishlist
-// @route   GET /wishlist
-// @access  Private
 const getWishlist = async (req, res) => {
   try {
     const customer = await Customer.findById(req.user._id).populate('wishlist');
@@ -63,9 +57,6 @@ const getWishlist = async (req, res) => {
   }
 };
 
-// @desc    Remove product from wishlist
-// @route   DELETE /wishlist/:productId
-// @access  Private
 const removeFromWishlist = async (req, res) => {
   const { productId } = req.params;
 

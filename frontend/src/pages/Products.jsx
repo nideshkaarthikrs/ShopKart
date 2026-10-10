@@ -8,13 +8,11 @@ function Products() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Filters state
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [sort, setSort] = useState('')
 
   useEffect(() => {
-    // Debounce search slightly
     const timeoutId = setTimeout(() => {
       fetchProducts()
     }, 300)

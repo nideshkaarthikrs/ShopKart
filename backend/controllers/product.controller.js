@@ -1,6 +1,5 @@
 const Product = require('../models/product.model');
 
-// Create Product
 exports.createProduct = async (req, res) => {
   try {
     const { name, description, price, category, image, stock } = req.body;
@@ -32,28 +31,25 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Get All Products (with search, category, and sort)
 exports.getProducts = async (req, res) => {
   try {
     const { search, category, sort } = req.query;
     
-    // Build query
     const query = {};
     if (search) {
-      query.name = { $regex: search, $options: 'i' }; // case-insensitive search
+      query.name = { $regex: search, $options: 'i' };
     }
     if (category) {
       query.category = category;
     }
 
-    // Build sort options
     let sortOptions = {};
     if (sort === 'price_asc') {
       sortOptions.price = 1;
     } else if (sort === 'price_desc') {
       sortOptions.price = -1;
     } else {
-      sortOptions.createdAt = -1; // Default to newest
+      sortOptions.createdAt = -1;
     }
 
     const products = await Product.find(query).sort(sortOptions);
@@ -68,7 +64,6 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-// Get Single Product
 exports.getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -79,7 +74,6 @@ exports.getProductById = async (req, res) => {
 
     res.status(200).json({ success: true, product });
   } catch (error) {
-    // If the ID is invalid, it throws a CastError
     if (error.name === 'CastError') {
       return res.status(400).json({ success: false, message: 'Invalid product ID' });
     }

@@ -5,7 +5,6 @@ const Customer = require('../models/customer.model');
 const Product = require('../models/product.model');
 const razorpay = require('../config/razorpay');
 
-// Helper to validate shipping address
 const validateShippingAddress = (address) => {
   if (!address || typeof address !== 'object') {
     return 'Shipping address is required';
@@ -22,7 +21,6 @@ const validateShippingAddress = (address) => {
   return null;
 };
 
-// 1. Create Payment Order
 const createPaymentOrder = async (req, res) => {
   try {
     const { shippingAddress } = req.body;
@@ -41,13 +39,11 @@ const createPaymentOrder = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Cart cannot be empty' });
     }
 
-    // Load latest product data for each cart item
     const productIds = customer.cart.map((item) => item.product);
     const products = await Product.find({ _id: { $in: productIds } });
     const productMap = new Map();
     products.forEach((p) => productMap.set(p._id.toString(), p));
 
-    // Validate product existence and stock
     for (const item of customer.cart) {
       const product = productMap.get(item.product.toString());
       if (!product) {
@@ -65,7 +61,6 @@ const createPaymentOrder = async (req, res) => {
       }
     }
 
-    // Build order items snapshot and calculate server total
     let totalAmount = 0;
     const orderItems = customer.cart.map((item) => {
       const product = productMap.get(item.product.toString());
@@ -81,7 +76,6 @@ const createPaymentOrder = async (req, res) => {
       };
     });
 
-    // Create pending ShopKart order
     const shopKartOrder = new Order({
       user: customer._id,
       items: orderItems,
@@ -100,7 +94,6 @@ const createPaymentOrder = async (req, res) => {
 
     await shopKartOrder.save();
 
-    // Create Razorpay Order in paise
     const amountInPaise = Math.round(totalAmount * 100);
     const razorpayOrder = await razorpay.orders.create({
       amount: amountInPaise,
@@ -128,7 +121,6 @@ const createPaymentOrder = async (req, res) => {
   }
 };
 
-// 2. Verify Razorpay Payment Signature
 const verifyPayment = async (req, res) => {
   try {
     const { shopKartOrderId, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -149,12 +141,10 @@ const verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
 
-    // Verify ownership
     if (order.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ success: false, message: 'Unauthorized access to order' });
     }
 
-    // Verify signature using the order's stored razorpayOrderId
     const body = order.razorpayOrderId + '|' + razorpay_payment_id;
     const expectedSignature = crypto
       .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
@@ -170,20 +160,17 @@ const verifyPayment = async (req, res) => {
       });
     }
 
-    // Mark as PAID & PLACED
     order.paymentStatus = 'PAID';
     order.status = 'PLACED';
     order.razorpayPaymentId = razorpay_payment_id;
     await order.save();
 
-    // Decrement stock for ordered items
     for (const item of order.items) {
       await Product.findByIdAndUpdate(item.product, {
         $inc: { stock: -item.quantity }
       });
     }
 
-    // Clear user cart
     const customer = await Customer.findById(req.user._id);
     if (customer) {
       customer.cart = [];
@@ -204,7 +191,6 @@ const verifyPayment = async (req, res) => {
   }
 };
 
-// 3. Get User Orders
 const getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
@@ -220,7 +206,6 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-// 4. Get Single Order by ID
 const getOrderById = async (req, res) => {
   const { id } = req.params;
 
@@ -250,7 +235,6 @@ const getOrderById = async (req, res) => {
   }
 };
 
-// 5. Update Order Status (Bonus)
 const updateOrderStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;

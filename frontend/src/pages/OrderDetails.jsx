@@ -87,7 +87,6 @@ function OrderDetails() {
           </div>
         </div>
 
-        {/* Bonus Feature: Status Progression Tracker */}
         <div className="status-tracker-card">
           <h3>Order Progress</h3>
           <div className="status-timeline">
@@ -121,7 +120,6 @@ function OrderDetails() {
           )}
         </div>
 
-        {/* Items Section */}
         <div className="order-items-card">
           <h3>Order Items</h3>
           <div className="order-items-table">
@@ -151,7 +149,6 @@ function OrderDetails() {
           </div>
         </div>
 
-        {/* Address and Payment Information */}
         <div className="order-info-grid">
           <div className="info-card">
             <h3>Shipping Address</h3>

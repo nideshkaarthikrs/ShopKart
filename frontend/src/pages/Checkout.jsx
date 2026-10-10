@@ -115,16 +115,13 @@ function Checkout() {
     setSubmitting(true)
 
     try {
-      // 1. Create Payment Order on backend
       const orderData = await createPaymentOrder(shippingAddress)
 
-      // 2. Load Razorpay script
       const scriptLoaded = await loadRazorpayScript()
       if (!scriptLoaded) {
         throw new Error('Failed to load Razorpay payment gateway. Please check your internet connection.')
       }
 
-      // 3. Open Razorpay Checkout modal
       const options = {
         key: orderData.key,
         amount: orderData.amount,
@@ -135,7 +132,6 @@ function Checkout() {
         handler: async function (response) {
           try {
             setSubmitting(true)
-            // 4. Verify signature on backend
             const verifyRes = await verifyPayment({
               shopKartOrderId: orderData.shopKartOrderId,
               razorpay_order_id: response.razorpay_order_id,
@@ -199,7 +195,6 @@ function Checkout() {
       )}
 
       <div className="checkout-layout">
-        {/* Shipping Details Form */}
         <section className="checkout-form-section">
           <h2>Shipping Details</h2>
           <form id="shipping-form" onSubmit={handlePlaceOrder} noValidate>
@@ -290,8 +285,6 @@ function Checkout() {
             </div>
           </form>
         </section>
-
-        {/* Order Summary */}
         <aside className="checkout-summary-section">
           <h2>Order Summary</h2>
           <div className="checkout-items-list">

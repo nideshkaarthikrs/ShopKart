@@ -2,9 +2,6 @@ const Customer = require('../models/customer.model');
 const generateToken = require('../utils/generateToken');
 const bcrypt = require('bcrypt');
 
-// @desc    Register a new customer
-// @route   POST /customers/register
-// @access  Public
 const registerCustomer = async (req, res) => {
   const { fullName, email, password, phone } = req.body;
 
@@ -51,9 +48,6 @@ const registerCustomer = async (req, res) => {
   }
 };
 
-// @desc    Auth customer & get token
-// @route   POST /customers/login
-// @access  Public
 const loginCustomer = async (req, res) => {
   const { email, password } = req.body;
 
@@ -63,12 +57,11 @@ const loginCustomer = async (req, res) => {
     if (customer && bcrypt.compareSync(password, customer.password)) {
       const token = generateToken(customer._id);
       
-      // Store the JWT inside an HttpOnly cookie
       res.cookie('jwt', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
+        secure: process.env.NODE_ENV !== 'development',
         sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+        maxAge: 30 * 24 * 60 * 60 * 1000
       });
 
       res.json({
@@ -83,11 +76,8 @@ const loginCustomer = async (req, res) => {
   }
 };
 
-// @desc    Get customer profile
-// @route   GET /customers/me
-// @access  Private
 const getCustomerProfile = async (req, res) => {
-  const customer = req.user; // attached by protect middleware
+  const customer = req.user;
 
   if (customer) {
     res.json({
@@ -101,9 +91,6 @@ const getCustomerProfile = async (req, res) => {
   }
 };
 
-// @desc    Logout customer / clear cookie
-// @route   POST /customers/logout
-// @access  Private
 const logoutCustomer = (req, res) => {
   res.cookie('jwt', '', {
     httpOnly: true,
@@ -113,9 +100,6 @@ const logoutCustomer = (req, res) => {
   res.json({ success: true, message: 'Logged out successfully' });
 };
 
-// @desc    Change Password
-// @route   PATCH /customers/change-password
-// @access  Private
 const changePassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const customer = req.user;
